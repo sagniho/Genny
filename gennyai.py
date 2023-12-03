@@ -4,11 +4,15 @@ from openai import OpenAI
 from config import OPENAI_API_KEY  # Import the API key from config.py
 from config import GENNY_ASSISTANT_ID
 # Set your OpenAI API key
-openai.api_key = 'OPENAI_API_KEY'
-client = OpenAI(api_key="OPENAI_API_KEY")
+# Access API key from environment variable
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+
+
+
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Use the Assistant ID from the Assistant you created
-ASSISTANT_ID = 'GENNY_ASSISTANT_ID'
+ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
 
 
 def send_message_get_response(assistant_id, thread_id, user_message):
