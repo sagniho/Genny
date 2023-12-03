@@ -16,7 +16,7 @@ with st.sidebar:
     st.image("bench.png", use_column_width="auto")
    # "[Benchmark Gensuite](https://benchmarkgensuite.com)"
    st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
-   
+
 
 st.markdown("""
     <div style="display: flex; align-items: center;">
