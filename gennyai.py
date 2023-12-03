@@ -12,94 +12,78 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Use the Assistant ID from the Assistant you created
 ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
+with st.sidebar:
+    st.sidebar.markdown(
+    """<a href="https://benchmarkgensuite.com">
+    <img src="data:image/png;base64,{}" width="250">
+    </a>""".format(
+        base64.b64encode(open("bench.png", "rb").read()).decode(), use_column_width="auto"
+    ),
+    unsafe_allow_html=True,
+)
+    st.subheader("Welcome to Genny AI - Benchmark Gensuite's customer AI assistant", anchor=None,help=None, divider="blue")
+   
 
+st.title("GennyAI")
+st.caption("Your Benchmark Gensuite Advisor")
 
-def send_message_get_response(assistant_id, thread_id, user_message):
+def send_message_get_response(assistant_id, user_message):
+    # Create a new thread
+    thread = client.beta.threads.create()
+
     # Add user message to the thread
-    client.beta.threads.messages.create(
-        thread_id=thread_id, role="user", content=user_message
+    message = client.beta.threads.messages.create(
+        thread_id=thread.id, role="user", content=user_message
     )
 
     # Run the assistant
     run = client.beta.threads.runs.create(
-        thread_id=thread_id,
+        thread_id=thread.id,
         assistant_id=assistant_id
     )
 
     # Retrieve the assistant's response
     while True:
-        run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run.id)
+        run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
         if run.status == "completed":
-            messages = client.beta.threads.messages.list(thread_id=thread_id)
+            messages = client.beta.threads.messages.list(thread_id=thread.id)
             latest_message = messages.data[0]
             text = latest_message.content[0].text.value
             return text
 
 
-from streamlit_chat import message as st_message  # You may need to install streamlit-chat for this
-
-# Assuming 'client' has been initialized as shown in the provided sample code
-
 
 def main():
-    st.markdown("""
-        <style>
-            .centered {
-                text-align: center;
-            }
-            .stTextInput {
-                width: 100%;
-                margin: 10px 0;
-            }
-            .stButton > button {
-                width: 100%;
-                padding: 15px 30px;
-                margin: 10px 0;
-                border-radius: 25px;
-                font-weight: bold;
-            }
-            .chatbox-padding {
-                padding: 10px;
-            }
-            img {
-                max-width: 100%;
-                height: auto;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # Create history and thread_id if not in the session state
-    if 'history' not in st.session_state:
-        st.session_state['history'] = []
-
-    if 'thread_id' not in st.session_state:
-        thread = client.beta.threads.create()
-        st.session_state['thread_id'] = thread.id
-
-    image = 'genny.png'
-    st.image(image, width=50,)
-    st.markdown("<h1 class='centered'>Genny AI</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 class='centered'>Your Benchmark Gensuite advisor</h3>", unsafe_allow_html=True)
-    st.markdown("<p class='centered'><a href='https://www.benchmarkgensuite.com' target='_blank'>www.benchmarkgensuite.com</a></p>", unsafe_allow_html=True)
+    # Initialize messages in session state if not present
+    if 'messages' not in st.session_state:
+        st.session_state['messages'] = []
 
 
-   
+    # Display previous chat messages
+    for msg in st.session_state.messages:
+        if msg['role'] == 'user':
+            with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(msg["content"])
+        else:
+            with st.chat_message("assistant", avatar="genny.png"):
+                st.write(msg["content"])
+    # Chat input for new message
+    user_input = st.chat_input()
 
-    # Chat history display
-    for idx, message in enumerate(st.session_state['history'][::-1]):
-        st.text_area(label='', value=message['text'], key=f"msg_{idx}", height=75, disabled=True)
+    # When a message is sent through the chat input
+    if user_input:
+        # Append the user message to the session state
+        st.session_state['messages'].append({'role': 'user', 'content': user_input})
 
-    with st.form(key='my_form', clear_on_submit=True):
-	    user_input = st.text_input('What would you like to ask Genny', key='user_input')
-	    submit_button = st.form_submit_button('Send')
-	    if submit_button:
-	        if user_input:
-	            st.session_state['history'].append({'text': user_input, 'is_user': True})
-	            response = send_message_get_response(ASSISTANT_ID, st.session_state['thread_id'], user_input)
-	            st.session_state['history'].append({'text': response, 'is_user': False})
-	            st.experimental_rerun()
-	        else:
-	            st.warning("Please enter a message.")
+        # Get the response from the assistant
+        with st.spinner('Thinking...'):
+            response = send_message_get_response(ASSISTANT_ID, user_input)
+
+        # Append the response to the session state
+        st.session_state['messages'].append({'role': 'assistant', 'content': response})
+
+        # Update the page to display the new messages
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()

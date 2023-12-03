@@ -1,3 +1,5 @@
 openai
 streamlit
 streamlit_chat
+base64
+streamlit_extras.app_logo
