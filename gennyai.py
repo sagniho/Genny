@@ -14,12 +14,19 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
 with st.sidebar:
     st.image("bench.png", use_column_width="auto")
-    "[Benchmark Gensuite](https://benchmarkgensuite.com)"
-    st.subheader("Welcome to Genny AI - Benchmark Gensuite's customer AI assistant", anchor=None,help=None, divider="blue")
+   # "[Benchmark Gensuite](https://benchmarkgensuite.com)"
+   st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
    
 
-st.title("GennyAI")
-st.caption("Your Benchmark Gensuite Advisor")
+st.markdown("""
+    <div style="display: flex; align-items: center;">
+        <img src="path/to/logo.png" alt="Genny AI Logo" style="width: 50px; height: 50px; margin-right: 10px;">
+        <div>
+            <h1 style="margin: 0;">Genny AI Website Assistant</h1>
+            <p style="margin: 0;">Your Benchmark Gensuite® Solutions Advisor</p>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 def send_message_get_response(assistant_id, user_message):
     # Create a new thread
@@ -52,32 +59,32 @@ def main():
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
 
-
     # Display previous chat messages
     for msg in st.session_state.messages:
         if msg['role'] == 'user':
-            with st.chat_message("user", avatar="🧑‍💻"):
-                st.write(msg["content"])
+            st.chat_message(msg["content"], avatar="🧑‍💻", is_user=True)
         else:
-            with st.chat_message("assistant", avatar="genny.png"):
-                st.write(msg["content"])
+            st.chat_message(msg["content"], avatar="genny.png", is_user=False)
+
     # Chat input for new message
-    user_input = st.chat_input()
+    user_input = st.chat_input(placeholder="Please ask me your question…")
 
     # When a message is sent through the chat input
     if user_input:
         # Append the user message to the session state
         st.session_state['messages'].append({'role': 'user', 'content': user_input})
+        # Display the user message
+        st.chat_message(user_input, avatar="🧑‍💻", is_user=True)
 
         # Get the response from the assistant
-        with st.spinner('Thinking...'):
+        with st.spinner('Working on this for you now...'):
             response = send_message_get_response(ASSISTANT_ID, user_input)
+            # Append the response to the session state
+            st.session_state['messages'].append({'role': 'assistant', 'content': response})
+            # Display the assistant's response
+            st.chat_message(response, avatar="genny.png", is_user=False)
 
-        # Append the response to the session state
-        st.session_state['messages'].append({'role': 'assistant', 'content': response})
 
-        # Update the page to display the new messages
-        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
