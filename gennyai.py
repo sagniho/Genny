@@ -1,8 +1,7 @@
 import streamlit as st
 import openai
 from openai import OpenAI
-from config import OPENAI_API_KEY  # Import the API key from config.py
-from config import GENNY_ASSISTANT_ID
+
 # Set your OpenAI API key
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
