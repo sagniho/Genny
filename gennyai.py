@@ -1,7 +1,7 @@
 import streamlit as st
 import openai
 from openai import OpenAI
-
+import base64
 # Set your OpenAI API key
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
@@ -13,14 +13,8 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 # Use the Assistant ID from the Assistant you created
 ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
 with st.sidebar:
-    st.sidebar.markdown(
-    """<a href="https://benchmarkgensuite.com">
-    <img src="data:image/png;base64,{}" width="250">
-    </a>""".format(
-        base64.b64encode(open("bench.png", "rb").read()).decode(), use_column_width="auto"
-    ),
-    unsafe_allow_html=True,
-)
+    st.image("bench.png", use_column_width="auto")
+    "[Benchmark Gensuite](https://benchmarkgensuite.com)"
     st.subheader("Welcome to Genny AI - Benchmark Gensuite's customer AI assistant", anchor=None,help=None, divider="blue")
    
 
