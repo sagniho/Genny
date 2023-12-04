@@ -17,7 +17,7 @@ with st.sidebar:
     st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
 st.markdown("""
     <div style="display: flex; align-items: center;">
-        <img src="path/to/logo.png" alt="Genny AI Logo" style="width: 50px; height: 50px; margin-right: 10px;">
+        <img src="genny.png" alt="Genny AI Logo" style="width: 50px; height: 50px; margin-right: 10px;">
         <div>
             <h1 style="margin: 0;">Genny AI Website Assistant</h1>
             <p style="margin: 0;">Your Benchmark Gensuite® Solutions Advisor</p>
