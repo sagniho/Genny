@@ -21,11 +21,11 @@ col1, col2 = st.columns([1, 4])
 
 # In the first column, display the logo
 with col1:
-    st.image('genny.png', width=50)  # Adjust the width as needed
+    st.image('genny.png')  # Adjust the width as needed
 
 # In the second column, display the title and subtitle
 with col2:
-    st.markdown("#### Genny AI Website Assistant")
+    st.markdown("<h2 style='margin-top: 0;'>Genny AI Website Assistant</h2>", unsafe_allow_html=True)
     st.caption("Your Benchmark Gensuite® Solutions Advisor")
 
 def send_message_get_response(assistant_id, user_message):
