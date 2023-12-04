@@ -3,7 +3,7 @@ import openai
 from openai import OpenAI
 import base64
 
-st.set_page_config(page_title="Genny AI Website Assistant", page_icon="genny.png")
+st.set_page_config(page_title="Genny AI Website Advisor", page_icon="genny.png")
 # Set your OpenAI API key
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
@@ -26,7 +26,7 @@ with col1:
 
 # In the second column, display the title and subtitle
 with col2:
-    st.markdown("<h2 style='margin-top: 0;'>Genny AI Website Assistant</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='margin-top: 0;'>Genny AI Website Advisor</h2>", unsafe_allow_html=True)
     st.markdown("<p style='margin-top: 0; padding-left: 10px;'>Your Benchmark Gensuite® Solutions Advisor</p>", unsafe_allow_html=True)
 
 
