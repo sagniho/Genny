@@ -90,6 +90,11 @@ def main():
                 st.write(response)
 
 
+st.set_page_config(
+    page_title="Genny AI Website Assistant",
+    page_icon="genny.png", 
+    layout="wide"
+)
 
 if __name__ == "__main__":
     main()
