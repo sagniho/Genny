@@ -14,10 +14,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
 with st.sidebar:
     st.image("bench.png", use_column_width="auto")
-   # "[Benchmark Gensuite](https://benchmarkgensuite.com)"
-   st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
-
-
+    st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
 st.markdown("""
     <div style="display: flex; align-items: center;">
         <img src="path/to/logo.png" alt="Genny AI Logo" style="width: 50px; height: 50px; margin-right: 10px;">
