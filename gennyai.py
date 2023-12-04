@@ -15,15 +15,18 @@ ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
 with st.sidebar:
     st.image("bench.png", use_column_width="auto")
     st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
-st.markdown("""
-    <div style="display: flex; align-items: center;">
-        <img src="genny.png" style="width: 50px; height: 50px; margin-right: 10px;">
-        <div>
-            <h1 style="margin: 0;">Genny AI Website Assistant</h1>
-            <p style="margin: 0;">Your Benchmark Gensuite® Solutions Advisor</p>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
+
+# Create columns for the logo and the title
+col1, col2 = st.columns([1, 4])
+
+# In the first column, display the logo
+with col1:
+    st.image('genny.png', width=50)  # Adjust the width as needed
+
+# In the second column, display the title and subtitle
+with col2:
+    st.markdown("#### Genny AI Website Assistant")
+    st.caption("Your Benchmark Gensuite® Solutions Advisor")
 
 def send_message_get_response(assistant_id, user_message):
     # Create a new thread
@@ -59,9 +62,11 @@ def main():
     # Display previous chat messages
     for msg in st.session_state.messages:
         if msg['role'] == 'user':
-            st.chat_message(msg["content"], avatar="🧑‍💻", is_user=True)
+            with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(msg["content"])
         else:
-            st.chat_message(msg["content"], avatar="genny.png", is_user=False)
+            with st.chat_message("assistant", avatar="genny.png"):
+                st.write(msg["content"])
 
     # Chat input for new message
     user_input = st.chat_input(placeholder="Please ask me your question…")
@@ -71,7 +76,8 @@ def main():
         # Append the user message to the session state
         st.session_state['messages'].append({'role': 'user', 'content': user_input})
         # Display the user message
-        st.chat_message(user_input, avatar="🧑‍💻", is_user=True)
+        with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(user_input)
 
         # Get the response from the assistant
         with st.spinner('Working on this for you now...'):
@@ -79,7 +85,8 @@ def main():
             # Append the response to the session state
             st.session_state['messages'].append({'role': 'assistant', 'content': response})
             # Display the assistant's response
-            st.chat_message(response, avatar="genny.png", is_user=False)
+            with st.chat_message("assistant", avatar="genny.png"):
+                st.write(response)
 
 
 
