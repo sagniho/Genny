@@ -21,7 +21,7 @@ col1, col2 = st.columns([1, 4])
 
 # In the first column, display the logo
 with col1:
-    st.image('genny.png')  # Adjust the width as needed
+    st.image('genny.png', width=75)  # Adjust the width as needed
 
 # In the second column, display the title and subtitle
 with col2:
