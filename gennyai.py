@@ -2,11 +2,8 @@ import streamlit as st
 import openai
 from openai import OpenAI
 import base64
-st.set_page_config(
-    page_title="Genny AI Website Assistant",
-    page_icon="genny.png", 
-    layout="wide"
-)
+
+st.set_page_config(page_title="Genny AI Website Assistant", page_icon="genny.png")
 # Set your OpenAI API key
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
