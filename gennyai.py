@@ -26,7 +26,7 @@ with col1:
 # In the second column, display the title and subtitle
 with col2:
     st.markdown("<h2 style='margin-top: 0;'>Genny AI Website Assistant</h2>", unsafe_allow_html=True)
-    st.markdown("<h4 style='margin-top: 0;'>Your Benchmark Gensuite® Solutions Advisor</h4>", unsafe_allow_html=True)
+    st.markdown("<p style='margin-top: 0;'>Your Benchmark Gensuite® Solutions Advisor</p>", unsafe_allow_html=True)
 
 def send_message_get_response(assistant_id, user_message):
     # Create a new thread
