@@ -60,12 +60,12 @@ def send_message_get_response(assistant_id, user_message):
             return text
 
 
-def main(): 
+def main():
     # Initialize messages in session state if not present
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
 
-    # Display quick ask buttons only once
+    # Show quick ask questions if none have been asked or typed yet
     if 'quick_asked' not in st.session_state:
         st.session_state['quick_asked'] = False
 
@@ -75,45 +75,45 @@ def main():
             "What should I implement?",
             "Why select Benchmark Gensuite?"
         ]
-        for question in quick_questions:
-            if st.button(question):
+        # Use a single row for quick ask questions
+        cols = st.columns(len(quick_questions))
+        for col, question in zip(cols, quick_questions):
+            if col.button(question):
                 # Mark as asked and process the question
                 st.session_state['quick_asked'] = True
-                st.session_state['messages'].append({'role': 'user', 'content': question})
-                user_input = question
-                with st.spinner('Working on this for you now...'):
-                    response = send_message_get_response(ASSISTANT_ID, user_input)
-                    cleaned_response = remove_source_tag(response)
-                    st.session_state['messages'].append({'role': 'assistant', 'content': cleaned_response})
+                process_user_input(question)
+
+    # User input for new message
+    user_input = st.text_input("Please ask me your question…", key="user_input")
+
+    # If a quick ask question has been selected or user has typed a question, process it
+    if user_input and not st.session_state['quick_asked']:
+        # Mark as asked and process the typed question
+        st.session_state['quick_asked'] = True
+        process_user_input(user_input)
 
     # Display previous chat messages
     for msg in st.session_state.messages:
-        if msg['role'] == 'user':
-            with st.chat_message("user", avatar="🧑‍💻"):
-                st.write(msg["content"])
-        else:
-            with st.chat_message("assistant", avatar="genn.png"):
-                st.write(msg["content"])
+        role = "user" if msg['role'] == 'user' else "assistant"
+        avatar = "🧑‍💻" if msg['role'] == 'user' else "genny.png"
+        st.chat_message(msg["content"], avatar=avatar, is_user=(msg['role'] == 'user'))
 
-    # Chat input for new message, displayed after quick ask questions have been used
-    if st.session_state['quick_asked']:
-        user_input = st.chat_input(placeholder="Please ask me your question…")
-        if user_input:
-            # Append the user message to the session state
-            st.session_state['messages'].append({'role': 'user', 'content': user_input})
-            # Display the user message
-            with st.chat_message("user", avatar="🧑‍💻"):
-                st.write(user_input)
+def process_user_input(input_text):
+    # Append the message to the session state
+    st.session_state['messages'].append({'role': 'user', 'content': input_text})
+    # Display the user message
+    with st.chat_message("user", avatar="🧑‍💻"):
+        st.write(input_text)
 
-            # Get the response from the assistant
-            with st.spinner('Working on this for you now...'):
-                response = send_message_get_response(ASSISTANT_ID, user_input)
-                cleaned_response = remove_source_tag(response)
-                # Append the response to the session state
-                st.session_state['messages'].append({'role': 'assistant', 'content': cleaned_response})
-                # Display the assistant's response
-                with st.chat_message("assistant", avatar="genn.png"):
-                    st.write(cleaned_response)
+    # Get the response from the assistant
+    with st.spinner('Working on this for you now...'):
+        response = send_message_get_response(ASSISTANT_ID, input_text)
+        cleaned_response = remove_source_tag(response)
+        # Append the response to the session state
+        st.session_state['messages'].append({'role': 'assistant', 'content': cleaned_response})
+        # Display the assistant's response
+        with st.chat_message("assistant", avatar="genny.png"):
+            st.write(cleaned_response)
 
 
 if __name__ == "__main__":
