@@ -4,7 +4,7 @@ from openai import OpenAI
 import base64
 import re
 
-st.set_page_config(page_title="Genny AI Website Advisor", page_icon="genny.png")
+st.set_page_config(page_title="Genny AI Website Advisor", page_icon="genn.png")
 # Set your OpenAI API key
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
@@ -27,7 +27,7 @@ col1, col2 = st.columns([1, 4])
 
 # In the first column, display the logo
 with col1:
-    st.image('genny.png', width=150)  # Adjust the width as needed
+    st.image('genny.png', width=175)  # Adjust the width as needed
 
 # In the second column, display the title and subtitle
 with col2:
@@ -72,7 +72,7 @@ def main():
             with st.chat_message("user", avatar="🧑‍💻"):
                 st.write(msg["content"])
         else:
-            with st.chat_message("assistant", avatar="genny.png"):
+            with st.chat_message("assistant", avatar="genn.png"):
                 st.write(msg["content"])
 
     # Chat input for new message
