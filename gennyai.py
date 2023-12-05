@@ -9,6 +9,14 @@ st.set_page_config(page_title="Genny AI Website Advisor", page_icon="gen.png")
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 client = OpenAI(api_key=OPENAI_API_KEY)
+def send_quick_question(question):
+    # Simulate sending a quick question
+    st.session_state['user_input'] = question  # Prepopulate the input field
+    st.session_state['messages'].append({'role': 'user', 'content': question})
+    # Get the response from the assistant
+    response = send_message_get_response(ASSISTANT_ID, question)
+    # Append the response to the session state
+    st.session_state['messages'].append({'role': 'assistant', 'content': response})
 
 def remove_source_tag(text):
     # Use a regular expression to find and remove the source tag pattern
