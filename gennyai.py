@@ -20,7 +20,7 @@ def remove_source_tag(text):
 ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID_v2']
 with st.sidebar:
     st.image("bench.png", use_column_width="auto")
-    st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
+    st.subheader("Welcome to the [Benchmark Gensuite®.](https://benchmarkgensuite.com)Unified, organically developed, and integrated digital solutions for EHS, sustainability, quality, operational risk, product stewardship, supply chain, and ESG disclosure reporting.  ")
 
 # Create columns for the logo and the title
 col1, col2 = st.columns([1, 4])
@@ -31,8 +31,8 @@ with col1:
 
 # In the second column, display the title and subtitle
 with col2:
-    st.markdown("<h2 style='margin-top: 0;'>Genny AI Website Advisor</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='margin-top: 0; padding-left: 10px;'>Your Benchmark Gensuite® Solutions Advisor</p>", unsafe_allow_html=True)
+    st.markdown("<h2 style='margin-top: 0;'>Benchmark Gensuite® Product Advisor</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='margin-top: 0; padding-left: 10px;'>Your interactive Genny AI-powered guide to the Benchmark Gensuite solutions platform</p>", unsafe_allow_html=True)
 
 
 def send_message_get_response(assistant_id, user_message):
@@ -89,9 +89,8 @@ def main():
         # Get the response from the assistant
         with st.spinner('Working on this for you now...'):
             response = send_message_get_response(ASSISTANT_ID, user_input)
-            cleaned_response = remove_source_tag(response)
             # Append the response to the session state
-            st.session_state['messages'].append({'role': 'assistant', 'content': cleaned_response})
+            st.session_state['messages'].append({'role': 'assistant', 'content': response})
             # Display the assistant's response
             with st.chat_message("assistant", avatar="genn.png"):
                 st.write(response)
