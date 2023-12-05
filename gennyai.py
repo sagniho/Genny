@@ -12,7 +12,7 @@ OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Use the Assistant ID from the Assistant you created
-ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
+ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID_v2']
 with st.sidebar:
     st.image("bench.png", use_column_width="auto")
     st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
@@ -84,23 +84,11 @@ def main():
         # Get the response from the assistant
         with st.spinner('Working on this for you now...'):
             response = send_message_get_response(ASSISTANT_ID, user_input)
-
-        # Breaking the response into smaller chunks
-        words = response.split()
-        partial_response = ""
-        for word in words:
-            partial_response += word + " "
-            # Update the session state and rerun to display the partial response
-            st.session_state['messages'].append({'role': 'assistant', 'content': partial_response})
-            time.sleep(0.05)  # Adjust the delay as needed
-            st.experimental_rerun()
-
-        # Display the complete response
-        with st.chat_message("assistant", avatar="genny.png"):
-            st.write(response)
-
-
-
+            # Append the response to the session state
+            st.session_state['messages'].append({'role': 'assistant', 'content': response})
+            # Display the assistant's response
+            with st.chat_message("assistant", avatar="genny.png"):
+                st.write(response)
 
 if __name__ == "__main__":
     main()
