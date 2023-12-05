@@ -61,7 +61,8 @@ def send_message_get_response(assistant_id, user_message):
 
 
 
-def main():
+def main(): 
+
     # Define some quick questions for users to ask
     quick_questions = [
         "How do I get started?",
@@ -73,8 +74,18 @@ def main():
     for question in quick_questions:
         if st.button(question):
             send_quick_question(question)
+    # Initialize messages in session state if not present
+    if 'messages' not in st.session_state:
+        st.session_state['messages'] = []
 
-    # ... rest of your main function ...
+    # Display previous chat messages
+    for msg in st.session_state.messages:
+        if msg['role'] == 'user':
+            with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(msg["content"])
+        else:
+            with st.chat_message("assistant", avatar="genn.png"):
+                st.write(msg["content"])
 
     # Chat input for new message
     user_input = st.session_state.get('user_input', '')
@@ -97,7 +108,6 @@ def main():
         avatar = "🧑‍💻" if role == "user" else "genn.png"
         with st.chat_message(role, avatar=avatar):
             st.write(msg['content'])
-
 
 if __name__ == "__main__":
     main()
