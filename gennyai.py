@@ -12,7 +12,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 def remove_source_tag(text):
     # Use a regular expression to find and remove the source tag pattern
-    pattern = r"&#8203;``【oaicite:0】``&#8203;"
+    pattern = r"&#8203;``【oaicite:2】``&#8203;"
     cleaned_text = re.sub(pattern, '', text)
     return cleaned_text
 
