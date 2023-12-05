@@ -9,14 +9,6 @@ st.set_page_config(page_title="Genny AI Website Advisor", page_icon="gen.png")
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 client = OpenAI(api_key=OPENAI_API_KEY)
-def send_quick_question(question):
-    # Simulate sending a quick question
-    st.session_state['user_input'] = question  # Prepopulate the input field
-    st.session_state['messages'].append({'role': 'user', 'content': question})
-    # Get the response from the assistant
-    response = send_message_get_response(ASSISTANT_ID, question)
-    # Append the response to the session state
-    st.session_state['messages'].append({'role': 'assistant', 'content': response})
 
 def remove_source_tag(text):
     # Use a regular expression to find and remove the source tag pattern
@@ -74,30 +66,13 @@ def main():
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
 
-    # Define some quick questions for users to ask
-    quick_questions = [
-        "How do I get started?",
-        "What should I implement?",
-        "Why select Benchmark Gensuite?"
-    ]
-
-    # Display quick ask questions as buttons
-    for question in quick_questions:
-        if st.button(question):
-            # Add the quick question to the messages and get the response
-            st.session_state['messages'].append({'role': 'user', 'content': question})
-            response = send_message_get_response(ASSISTANT_ID, question)
-            st.session_state['messages'].append({'role': 'assistant', 'content': response})
-            # Force a rerun to update the display
-            st.experimental_rerun()
-
     # Display previous chat messages
     for msg in st.session_state.messages:
         if msg['role'] == 'user':
-            with st.chat_message(msg["content"], is_user=True):
+            with st.chat_message("user", avatar="🧑‍💻"):
                 st.write(msg["content"])
         else:
-            with st.chat_message(msg["content"], is_user=False):
+            with st.chat_message("assistant", avatar="genn.png"):
                 st.write(msg["content"])
 
     # Chat input for new message
@@ -105,13 +80,20 @@ def main():
 
     # When a message is sent through the chat input
     if user_input:
-        # Append the user message to the session state and display it
+        # Append the user message to the session state
         st.session_state['messages'].append({'role': 'user', 'content': user_input})
+        # Display the user message
+        with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(user_input)
+
         # Get the response from the assistant
         with st.spinner('Working on this for you now...'):
             response = send_message_get_response(ASSISTANT_ID, user_input)
+            # Append the response to the session state
             st.session_state['messages'].append({'role': 'assistant', 'content': response})
-
+            # Display the assistant's response
+            with st.chat_message("assistant", avatar="genn.png"):
+                st.write(response)
 
 if __name__ == "__main__":
     main()
