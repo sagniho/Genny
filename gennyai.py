@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 from openai import OpenAI
 import base64
+import re
 
 st.set_page_config(page_title="Genny AI Website Advisor", page_icon="genny.png")
 # Set your OpenAI API key
