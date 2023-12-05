@@ -12,7 +12,7 @@ OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Use the Assistant ID from the Assistant you created
-ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID']
+ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID_v2']
 with st.sidebar:
     st.image("bench.png", use_column_width="auto")
     st.subheader("Welcome to the [Benchmark Gensuite®](https://benchmarkgensuite.com) Genny AI Website Assistant")
