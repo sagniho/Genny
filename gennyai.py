@@ -32,7 +32,7 @@ with col1:
 # In the second column, display the title and subtitle
 with col2:
     st.markdown("<h2 style='margin-top: 0;'>Benchmark Gensuite® Product Advisor</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='margin-top: 0; padding-left: 10px;'>Your interactive Genny AI-powered guide to the Benchmark Gensuite solutions platform</p>", unsafe_allow_html=True)
+st.markdown("<p style='margin-top: 0; padding-left: 10px;'>Your interactive Genny AI-powered guide to the Benchmark Gensuite solutions platform</p>", unsafe_allow_html=True)
 
 
 def send_message_get_response(assistant_id, user_message):
@@ -61,19 +61,35 @@ def send_message_get_response(assistant_id, user_message):
 
 
 
-def main(): 
-    # Initialize messages in session state if not present
+def main():
+    def main():
+    # Initialize session state for messages if not present
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
 
     # Display previous chat messages
     for msg in st.session_state.messages:
-        if msg['role'] == 'user':
-            with st.chat_message("user", avatar="🧑‍💻"):
-                st.write(msg["content"])
-        else:
-            with st.chat_message("assistant", avatar="genn.png"):
-                st.write(msg["content"])
+        st.chat_message(msg["content"], avatar="🧑‍💻" if msg["role"] == "user" else "genny.png", is_user=(msg["role"] == "user"))
+
+    # Display quick ask questions only if no question has been asked yet
+    if not st.session_state['messages']:
+        quick_questions = [
+            "How do I get started?",
+            "What should I implement?",
+            "Why select Benchmark Gensuite?"
+        ]
+        for question in quick_questions:
+            if st.button(question):
+                st.session_state['messages'].append({'role': 'user', 'content': question})
+                # Display the user message
+                with st.chat_message("user", avatar="🧑‍💻"):
+                    st.write(question)
+                # Display a 'typing...' message before showing the response
+                with st.spinner('Working on this for you now...'):
+                    response = send_message_get_response(ASSISTANT_ID, user_input)
+                
+                with st.chat_message("assistant", avatar="genn.png"):
+                    st.write(msg["response"])
 
     # Chat input for new message
     user_input = st.chat_input(placeholder="Please ask me your question…")
