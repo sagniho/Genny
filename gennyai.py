@@ -4,7 +4,7 @@ from openai import OpenAI
 import base64
 import re
 
-st.set_page_config(page_title="Genny AI Website Advisor", page_icon="genn.png")
+st.set_page_config(page_title="Genny AI Website Advisor", page_icon="gen.png")
 # Set your OpenAI API key
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
