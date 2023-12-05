@@ -70,6 +70,9 @@ def send_message_get_response(assistant_id, user_message):
 
 
 def main(): 
+    # Initialize messages in session state if not present
+    if 'messages' not in st.session_state:
+        st.session_state['messages'] = []
 
     # Define some quick questions for users to ask
     quick_questions = [
@@ -81,41 +84,34 @@ def main():
     # Display quick ask questions as buttons
     for question in quick_questions:
         if st.button(question):
-            send_quick_question(question)
-    # Initialize messages in session state if not present
-    if 'messages' not in st.session_state:
-        st.session_state['messages'] = []
+            # Add the quick question to the messages and get the response
+            st.session_state['messages'].append({'role': 'user', 'content': question})
+            response = send_message_get_response(ASSISTANT_ID, question)
+            st.session_state['messages'].append({'role': 'assistant', 'content': response})
+            # Force a rerun to update the display
+            st.experimental_rerun()
 
     # Display previous chat messages
     for msg in st.session_state.messages:
         if msg['role'] == 'user':
-            with st.chat_message("user", avatar="🧑‍💻"):
+            with st.chat_message(msg["content"], is_user=True):
                 st.write(msg["content"])
         else:
-            with st.chat_message("assistant", avatar="genn.png"):
+            with st.chat_message(msg["content"], is_user=False):
                 st.write(msg["content"])
 
     # Chat input for new message
-    user_input = st.session_state.get('user_input', '')
-    user_input_field = st.chat_input(placeholder="Please ask me your question…", key='user_input')
+    user_input = st.chat_input(placeholder="Please ask me your question…")
 
     # When a message is sent through the chat input
-    if user_input_field:
+    if user_input:
         # Append the user message to the session state and display it
-        st.session_state['messages'].append({'role': 'user', 'content': user_input_field})
-
+        st.session_state['messages'].append({'role': 'user', 'content': user_input})
         # Get the response from the assistant
         with st.spinner('Working on this for you now...'):
-            response = send_message_get_response(ASSISTANT_ID, user_input_field)
-            # Append the response to the session state
+            response = send_message_get_response(ASSISTANT_ID, user_input)
             st.session_state['messages'].append({'role': 'assistant', 'content': response})
-    
-    # Display messages
-    for msg in st.session_state.messages:
-        role = "user" if msg['role'] == 'user' else "assistant"
-        avatar = "🧑‍💻" if role == "user" else "genn.png"
-        with st.chat_message(role, avatar=avatar):
-            st.write(msg['content'])
+
 
 if __name__ == "__main__":
     main()
