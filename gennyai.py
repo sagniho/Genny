@@ -62,6 +62,27 @@ def send_message_get_response(assistant_id, user_message):
 
 
 def main():
+    # Define some quick questions for users to ask
+    quick_questions = [
+        "How do I get started?",
+        "What should I implement?",
+        "Why select Benchmark Gensuite?"
+    ]
+
+    # Use columns to layout the quick ask buttons horizontally
+    cols = st.columns(len(quick_questions))
+    for col, question in zip(cols, quick_questions):
+        # Using the button's `on_click` callback to set the chat input to the quick question
+        col.button(question, on_click=lambda q=question: quick_ask(q))
+
+    # Chat input for new message, pre-populated with the selected quick question if any
+    user_input = st.text_input("Please ask me your question…", key="user_input",
+                               value=st.session_state.get('pre_populated_text', ''))
+
+    # Clear the pre-populated text after displaying it in the input field
+    if 'pre_populated_text' in st.session_state and st.session_state['user_input']:
+        del st.session_state['pre_populated_text']
+    
     # Initialize messages in session state if not present
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
