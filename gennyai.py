@@ -62,15 +62,18 @@ def send_message_get_response(assistant_id, user_message):
 
 
 def main():
-    def main():
-    # Initialize session state for messages if not present
-    
+    # Initialize messages in session state if not present
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
 
     # Display previous chat messages
     for msg in st.session_state.messages:
-        st.chat_message(msg["content"], avatar="🧑‍💻" if msg["role"] == "user" else "genny.png", is_user=(msg["role"] == "user"))
+        if msg['role'] == 'user':
+            with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(msg["content"])
+        else:
+            with st.chat_message("assistant", avatar="genn.png"):
+                st.write(msg["content"])
 
     # Display quick ask questions only if no question has been asked yet
     if not st.session_state['messages']:
@@ -111,6 +114,10 @@ def main():
             # Display the assistant's response
             with st.chat_message("assistant", avatar="genn.png"):
                 st.write(response)
+
+
+#######################################################
+
 
 if __name__ == "__main__":
     main()
