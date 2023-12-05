@@ -7,9 +7,13 @@ st.set_page_config(page_title="Genny AI Website Advisor", page_icon="genny.png")
 # Set your OpenAI API key
 # Access API key from environment variable
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-
-
 client = OpenAI(api_key=OPENAI_API_KEY)
+
+def remove_source_tag(text):
+    # Use a regular expression to find and remove the source tag pattern
+    pattern = r"&#8203;``【oaicite:0】``&#8203;"
+    cleaned_text = re.sub(pattern, '', text)
+    return cleaned_text
 
 # Use the Assistant ID from the Assistant you created
 ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID_v2']
@@ -84,8 +88,9 @@ def main():
         # Get the response from the assistant
         with st.spinner('Working on this for you now...'):
             response = send_message_get_response(ASSISTANT_ID, user_input)
+            cleaned_response = remove_source_tag(response)
             # Append the response to the session state
-            st.session_state['messages'].append({'role': 'assistant', 'content': response})
+            st.session_state['messages'].append({'role': 'assistant', 'content': cleaned_response})
             # Display the assistant's response
             with st.chat_message("assistant", avatar="genny.png"):
                 st.write(response)
