@@ -64,6 +64,7 @@ def send_message_get_response(assistant_id, user_message):
 def main():
     def main():
     # Initialize session state for messages if not present
+    
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
 
