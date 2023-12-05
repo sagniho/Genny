@@ -93,7 +93,7 @@ def main():
             # Append the response to the session state
             st.session_state['messages'].append({'role': 'assistant', 'content': cleaned_response})
             # Display the assistant's response
-            with st.chat_message("assistant", avatar="genny.png"):
+            with st.chat_message("assistant", avatar="genn.png"):
                 st.write(response)
 
 if __name__ == "__main__":
