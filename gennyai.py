@@ -95,7 +95,7 @@ def main():
     if 'user_input' not in st.session_state:
         st.session_state['user_input'] = ''  # Initialize user_input in session state
 
-    user_input = st.chat_input(placeholder="Please ask me your question…", key="user_input")
+    user_input = st.chat_input(placeholder="Please ask me your question…")
 
     # When a message is sent through the chat input or a quick ask button is clicked
     if user_input:
