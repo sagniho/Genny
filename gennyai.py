@@ -68,33 +68,40 @@ def main():
             with st.chat_message("assistant", avatar="genn.png"):
                 st.write(msg["content"])
     
-    # Always show chat input
-    user_input = st.chat_input(placeholder="Please ask me your question…")
-
-    # Quick ask questions setup
+    # Quick ask buttons setup
     if 'quick_ask_shown' not in st.session_state:
-        st.session_state['quick_ask_shown'] = True  # Indicates if quick ask should be shown
+        st.session_state['quick_ask_shown'] = True
 
-    # Display quick ask questions horizontally
+    # Placeholder for quick ask buttons, which will be at the bottom above chat input
+    quick_ask_placeholder = st.empty()
+
+    # Display quick ask buttons above the chat input
     if st.session_state['quick_ask_shown']:
-        quick_asks = [
-            "Hello?",
-            "What should I implement?",
-            "Why select Benchmark Gensuite?"
-        ]
-        cols = st.columns(len(quick_asks))
-        for col, ask in zip(cols, quick_asks):
-            with col:
-                if st.button(ask):
-                    user_input = ask
-                    st.session_state['quick_ask_shown'] = False # Do not show quick asks anymore
+        with quick_ask_placeholder.container():
+            quick_asks = [
+                "Hi",
+                "What should I implement?",
+                "Why select Benchmark Gensuite?"
+            ]
+            # Use columns to display quick asks in a row
+            cols = st.columns(len(quick_asks), gap="small")
+            for col, ask in zip(cols, quick_asks):
+                with col:
+                    if st.button(ask, key=ask):
+                        st.session_state['user_input'] = ask  # Pre-populate chat input with quick ask
+                        st.session_state['quick_ask_shown'] = False  # Hide quick asks after use
 
-        
-        # When a message is sent through the chat input
-        if user_input:
-            st.session_state['quick_ask_shown'] = False
-            process_user_input(user_input)
+    # Chat input for new message
+    if 'user_input' not in st.session_state:
+        st.session_state['user_input'] = ''  # Initialize user_input in session state
 
+    user_input = st.chat_input(placeholder="Please ask me your question…", key="user_input")
+
+    # When a message is sent through the chat input or a quick ask button is clicked
+    if user_input:
+        process_user_input(user_input)
+        quick_ask_placeholder.empty()  # Remove quick ask buttons from the layout
+        st.session_state['user_input'] = ''  # Clear chat input after processing
 
 def process_user_input(user_input):
     # Append the user message to the session state
