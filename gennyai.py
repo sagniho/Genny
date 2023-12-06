@@ -88,7 +88,8 @@ def main():
             for col, ask in zip(cols, quick_asks):
                 with col:
                     if st.button(ask):
-                        st.session_state['user_input'] = ask  # Pre-populate chat input with quick ask
+                        st.session_state['user_input'] = ask 
+                        user_input = ask # Pre-populate chat input with quick ask
                         st.session_state['quick_ask_shown'] = False  # Hide quick asks after use
 
     # Chat input for new message
