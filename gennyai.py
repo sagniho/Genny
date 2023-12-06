@@ -87,7 +87,7 @@ def main():
             cols = st.columns(len(quick_asks), gap="small")
             for col, ask in zip(cols, quick_asks):
                 with col:
-                    if st.button(ask, key=ask):
+                    if st.button(ask):
                         st.session_state['user_input'] = ask  # Pre-populate chat input with quick ask
                         st.session_state['quick_ask_shown'] = False  # Hide quick asks after use
 
