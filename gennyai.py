@@ -87,7 +87,7 @@ def main():
     if st.session_state['quick_ask_shown']:
         with quick_ask_placeholder.container():
             quick_asks = [
-                "Hey!",
+                "Hey",
                 "What should I implement?",
                 "Why select Benchmark Gensuite?"
             ]
