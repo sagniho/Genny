@@ -76,6 +76,10 @@ def main():
     if 'quick_ask_flag' not in st.session_state:
         st.session_state['quick_ask_flag'] = 0  # 0 means no quick ask button has been clicked
 
+     # Initialize 'quick_ask_flag' in session state if not present
+    if 'quick_ask_q' not in st.session_state:
+        st.session_state['quick_ask_q'] = ''  # 0 means no quick ask button has been clicked
+
     # Placeholder for quick ask buttons, which will be at the bottom above chat input
     quick_ask_placeholder = st.empty()
 
@@ -92,13 +96,13 @@ def main():
             for col, ask in zip(cols, quick_asks):
                 with col:
                     if st.button(ask):
-                        user_input = ask # Pre-populate chat input with quick ask
+                        st.session_state['quick_ask_q'] = ask # Pre-populate chat input with quick ask
                         st.session_state['quick_ask_shown'] = False  # Hide quick asks after use
                         st.session_state['quick_ask_flag'] = 1
             
             if st.session_state['quick_ask_flag'] == 1:   
                 quick_ask_placeholder.empty()          
-                process_user_input(user_input)
+                process_user_input(st.session_state['quick_ask_q'])
 
     # Chat input for new message
     if 'user_input' not in st.session_state:
