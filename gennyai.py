@@ -79,7 +79,7 @@ def main():
     if st.session_state['quick_ask_shown']:
         with quick_ask_placeholder.container():
             quick_asks = [
-                "Hi",
+                "Hi!",
                 "What should I implement?",
                 "Why select Benchmark Gensuite?"
             ]
@@ -93,8 +93,8 @@ def main():
                         st.session_state['quick_ask_shown'] = False  # Hide quick asks after use
 
     # Chat input for new message
-    if 'user_input' not in st.session_state:
-        st.session_state['user_input'] = ''  # Initialize user_input in session state
+    #if 'user_input' not in st.session_state:
+        #st.session_state['user_input'] = ''  # Initialize user_input in session state
 
     user_input = st.chat_input(placeholder="Please ask me your question…")
 
