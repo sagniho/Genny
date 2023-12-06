@@ -90,6 +90,7 @@ def main():
                     if st.button(ask):
                         user_input = ask # Pre-populate chat input with quick ask
                         st.session_state['quick_ask_shown'] = False  # Hide quick asks after use
+                        process_user_input(user_input)
 
     # Chat input for new message
     if 'user_input' not in st.session_state:
