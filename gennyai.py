@@ -67,8 +67,13 @@ def main():
 
     # Display previous chat messages
     for msg in st.session_state.messages:
-        st.chat_message(msg["content"], avatar="🧑‍💻" if msg["role"] == "user" else "genn.png", is_user=(msg["role"] == "user"))
-
+        if msg['role'] == 'user':
+            with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(msg["content"])
+        else:
+            with st.chat_message("assistant", avatar="genn.png"):
+                st.write(msg["content"])
+                
     # Display quick ask questions horizontally and process them
     if st.session_state['quick_ask_shown']:
         quick_asks = [
