@@ -103,8 +103,8 @@ def main():
             if st.session_state['quick_ask_flag'] == 1:          
                 quick_ask_placeholder.empty()   
 
-            if st.session_state['quick_ask_flag'] == 1:          
-                process_user_input(st.session_state['quick_ask_q'])
+        if st.session_state['quick_ask_flag'] == 1:          
+            process_user_input(st.session_state['quick_ask_q'])
 
     # Chat input for new message
     if 'user_input' not in st.session_state:
