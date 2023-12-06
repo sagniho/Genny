@@ -86,7 +86,7 @@ def main():
     # Display quick ask buttons above the chat input
     if st.session_state['quick_ask_shown']:
         with quick_ask_placeholder.container():
-            st.write("\n")
+            st.write("\n\n\n\n\n")
             st.write("Some questions you can ask me…whatever you want to know about Benchmark Gensuite, just ask!")
             quick_asks = [
                 "How do I get started?",
