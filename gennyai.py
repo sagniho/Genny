@@ -94,7 +94,7 @@ def main():
                     process_user_input(user_input)
 
         # Always show chat input
-        user_input = st.text_input("Please ask me your question…", key="user_input")
+        user_input = st.chat_input(placeholder="Please ask me your question…")
         
         # When a message is sent through the chat input
         if user_input:
