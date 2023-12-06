@@ -94,9 +94,12 @@ def main():
 
     # Display previous chat messages
     for msg in st.session_state.messages:
-        role = "user" if msg['role'] == 'user' else "assistant"
-        avatar = "🧑‍💻" if msg['role'] == 'user' else "genny.png"
-        st.chat_message(msg["content"], avatar=avatar, is_user=(msg['role'] == 'user'))
+        if msg['role'] == 'user':
+            with st.chat_message("user", avatar="🧑‍💻"):
+                st.write(msg["content"])
+        else:
+            with st.chat_message("assistant", avatar="genn.png"):
+                st.write(msg["content"])
 
 def process_user_input(input_text):
     # Append the message to the session state
