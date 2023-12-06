@@ -118,8 +118,8 @@ def main():
 
     # When a message is sent through the chat input or a quick ask button is clicked
     if user_input:
-        process_user_input(user_input)
         quick_ask_placeholder.empty()  # Remove quick ask buttons from the layout
+        process_user_input(user_input)
         st.session_state['user_input'] = ''  # Clear chat input after processing
 
 def process_user_input(user_input):
