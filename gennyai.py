@@ -78,7 +78,7 @@ def main():
     # Display quick ask questions horizontally
     if st.session_state['quick_ask_shown']:
         quick_asks = [
-            "How do I get started?",
+            "Hello?",
             "What should I implement?",
             "Why select Benchmark Gensuite?"
         ]
