@@ -90,23 +90,24 @@ def main():
                 user_input = ask
                 st.session_state['quick_ask_shown'] = False  # Do not show quick asks anymore
                 break
-    else:
-        user_input = st.chat_input(placeholder="Please ask me your question…")
+            
+    user_input = st.chat_input(placeholder="Please ask me your question…")
         # Process user input and get the response
-        if user_input:
+    if user_input:
+        st.session_state['quick_ask_shown'] = False  # Do not show quick asks anymore
             # Append the user message to the session state
-            st.session_state['messages'].append({'role': 'user', 'content': user_input})
+        st.session_state['messages'].append({'role': 'user', 'content': user_input})
             # Display the user message
-            with st.chat_message("user", avatar="🧑‍💻"):
+         with st.chat_message("user", avatar="🧑‍💻"):
                 st.write(user_input)
 
             # Get the response from the assistant
-            with st.spinner('Working on this for you now...'):
-                response = send_message_get_response(ASSISTANT_ID, user_input)
+         with st.spinner('Working on this for you now...'):
+            response = send_message_get_response(ASSISTANT_ID, user_input)
                 # Append the response to the session state
-                st.session_state['messages'].append({'role': 'assistant', 'content': response})
+            st.session_state['messages'].append({'role': 'assistant', 'content': response})
                 # Display the assistant's response
-                with st.chat_message("assistant", avatar="genn.png"):
+            with st.chat_message("assistant", avatar="genn.png"):
                     st.write(response)
 
 
