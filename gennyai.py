@@ -61,6 +61,9 @@ def send_message_get_response(assistant_id, user_message):
 
 
 def main():
+    # Initialize 'quick_ask_shown' in session state if not present
+    if 'quick_ask_shown' not in st.session_state:
+        st.session_state['quick_ask_shown'] = True
     # Initialize messages in session state if not present
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
@@ -73,7 +76,7 @@ def main():
         else:
             with st.chat_message("assistant", avatar="genn.png"):
                 st.write(msg["content"])
-                
+
     # Display quick ask questions horizontally and process them
     if st.session_state['quick_ask_shown']:
         quick_asks = [
