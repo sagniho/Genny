@@ -88,13 +88,12 @@ def main():
             for col, ask in zip(cols, quick_asks):
                 with col:
                     if st.button(ask):
-                        st.session_state['user_input'] = ask 
                         user_input = ask # Pre-populate chat input with quick ask
                         st.session_state['quick_ask_shown'] = False  # Hide quick asks after use
 
     # Chat input for new message
-    #if 'user_input' not in st.session_state:
-        #st.session_state['user_input'] = ''  # Initialize user_input in session state
+    if 'user_input' not in st.session_state:
+        st.session_state['user_input'] = ''  # Initialize user_input in session state
 
     user_input = st.chat_input(placeholder="Please ask me your question…")
 
