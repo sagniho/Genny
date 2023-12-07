@@ -14,7 +14,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 ASSISTANT_ID = st.secrets['GENNY_ASSISTANT_ID_v2']
 with st.sidebar:
     st.image("bench.png", use_column_width="auto")
-    st.subheader("Welcome to the [Benchmark Gensuite®.](https://benchmarkgensuite.com) Unified, organically developed, and integrated digital solutions for EHS, sustainability, quality, operational risk, product stewardship, supply chain, and ESG disclosure reporting.  ")
+    st.subheader("Welcome to [Benchmark Gensuite®.](https://benchmarkgensuite.com) Unified, organically developed, and integrated digital solutions for EHS, sustainability, quality, operational risk, product stewardship, supply chain, and ESG disclosure reporting.  ")
 
 # Create columns for the logo and the title
 col1, col2 = st.columns([1, 4])
