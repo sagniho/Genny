@@ -33,7 +33,7 @@ def send_message_get_response(assistant_id, user_message, thread_id):
     client.beta.threads.messages.create(thread_id=thread_id, role="user", content=user_message)
     run = client.beta.threads.runs.create(
         thread_id=thread_id, 
-        assistant_id=assistant_id
+        assistant_id=assistant_id,
         additional_instructions="This user is: Mukund, the CEO of Benchmark Gensuite, giving his opening keynote presentation on Day 2 (May 15). Have an interactive conversation with him, sort of like you're both emceeing. Be witty and have a back and forth with Mukund, while remembering that there is an audience in front of you both. Tasteful puns, simple language."
     )
 
