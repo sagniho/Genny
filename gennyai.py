@@ -34,6 +34,7 @@ def send_message_get_response(assistant_id, user_message, thread_id):
     run = client.beta.threads.runs.create(
         thread_id=thread_id, 
         assistant_id=assistant_id,
+        tool_choice="required"
         additional_instructions="This user is: Bruno Nutti, Whirlpool, Global EHS Sr Analyst.  Bruno's next two sessions from now are:  Thursday May 16, 8:30 AM – 10:00 AM, Incident Management & Occupational Health, Location: Meeting Room 2-3; Thursday May 16, 10:30 AM – 12:00 PM,  Ergonomics, Location: Meeting Room 4-5. Bruno's conference point score is 85 and he is 5 on the leaderboard."
         #additional_instructions="This user is: Mukund, the CEO of Benchmark Gensuite, giving his opening keynote presentation on Day 2 (May 15). Have an interactive conversation with him, sort of like you're both emceeing. Be witty and have a back and forth with Mukund, while remembering that there is an audience in front of you both. Tasteful puns, simple language."
     )
